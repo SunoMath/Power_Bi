@@ -1,0 +1,19 @@
+Gradient Bar Chart = 
+VAR Bar_Fill = ([SUM_Sales]/[CALC_Sales])*200
+VAR Bar_Text = ([SUM_Sales]/[CALC_Sales])
+VAR Formatted_Bar_Text = FORMAT(Bar_Text,"#.0%")
+VAR SVG_Data_URL = "data:image/svg+xml;utf8,"
+VAR SVG_Start = "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 25'>"
+VAR SVG_Data =
+"
+<defs>
+     <linearGradient id='gradient' x1='0%' y1='0%' x2='100%' y2='0%'>
+         <stop offset='0%' style='stop-color: #3A2761' /> 
+         <stop offset='100%' style='stop-color: #f9c449' /> 
+     </linearGradient>
+</defs>
+<rect fill='url(#gradient)' x='10' y='5' rx='5' ry='5' width=' "& Bar_Fill &" ' height='20' />
+<text font-family='Trebuchet MS' font-size='1 em' fill='grey' x='"& Bar_Fill + 20 &"' y='20'> "& Formatted_Bar_Text &" </text>
+"
+VAR SVG_End = "</svg>"
+RETURN SVG_Data_URL & SVG_Start & SVG_Data & SVG_End
