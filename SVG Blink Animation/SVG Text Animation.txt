@@ -1,0 +1,61 @@
+SVG Status II = 
+VAR Status_ = SELECTEDVALUE(IT_Systems_Monitoring[Status])
+VAR Data_URL = "data:image/svg+xml;utf8,"
+VAR SVG_Start =  "<svg height='55' width='210' xmlns='http://www.w3.org/2000/svg'>"
+VAR No_Blink =
+"
+<style>
+    rect {
+        rx:10;
+        ry:10;
+        stroke: "&[Status_Color]&";
+        stroke-width: 2;
+        fill: "&[Status_Color]&";
+        fill-opacity: 0.3;
+    }
+    text {
+        font-family:'Segoe UI';
+        font-size: 1.6em;
+        fill: black;
+        text-anchor: middle;
+        alignment-baseline: middle;
+    }
+</style>
+
+<rect height='50' width='145' x='2' y='2' />
+<text x='35%' y='50%'> "&Status_&" </text>
+"
+VAR Blink =
+"
+<style>
+    @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    rect {
+        rx:10;
+        ry:10;
+        stroke: "&[Status_Color]&";
+        stroke-width: 2;
+        fill: "&[Status_Color]&";
+        fill-opacity: 0.3;
+        animation: blink 2s infinite;
+    }
+    text {
+        font-family:'Segoe UI';
+        font-size: 1.6em;
+        fill: black;
+        text-anchor: middle;
+        alignment-baseline: middle;
+        animation: blink 2s infinite;
+    }
+</style>
+
+<rect height='50' width='145' x='2' y='2' />
+<text x='35%' y='50%'> "&Status_&" </text>
+"
+VAR CHECK_ = IF([Status_Color] ="#f94144", Blink, No_Blink)
+VAR SVG_End = "</svg>"
+RETURN
+    Data_URL & SVG_Start & CHECK_ & SVG_End
