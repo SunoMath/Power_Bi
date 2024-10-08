@@ -1,0 +1,25 @@
+SVG Status = 
+VAR Data_URL = "data:image/svg+xml;utf8,"
+VAR SVG_Start =  "<svg height='100' width='100' xmlns='http://www.w3.org/2000/svg'>"
+VAR No_Blink = 
+"
+<circle r='30' cx='50' cy='50' fill='"&[Status_Color]&"'/>
+"
+VAR Blink = 
+"
+<style>
+    @keyframes blink {
+        0% { opacity: 1; }
+        50% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+    circle {
+        animation: blink 1s infinite;
+        }
+</style>        
+<circle r='30' cx='50' cy='50' fill='"&[Status_Color]&"'/>
+"
+VAR CHECK_ = IF([Status_Color] = "#f94144", Blink, No_Blink)
+VAR SVG_End = "</svg>"
+RETURN
+    Data_URL & SVG_Start & CHECK_ & SVG_End
